@@ -1,9 +1,15 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import Axios from 'axios'
-const Vue = createApp(App)
+import router from '@/router'
+const Vue = createApp(App);
 
-createApp(App).mount('#app')
+// Vuetify
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
 function url() {
     if ((document.location.href.slice(0, 5)) == 'https') {
@@ -26,8 +32,16 @@ Vue.config.globalProperties.$http = Axios.create({
     timeout: 600000
 });
 
+const vuetify = createVuetify({
+    components,
+    directives,
+})
+
 Vue.provide('$http', Vue.config.globalProperties.$http)
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 Axios.defaults.withCredentials = true;
 
 export { axios };
+Vue.use(router)
+    .use(vuetify)
+    .mount('#app')
