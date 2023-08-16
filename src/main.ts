@@ -2,7 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import Axios from 'axios'
 import router from '@/router'
+import { createPinia } from 'pinia'
 const Vue = createApp(App);
+const store = createPinia()
 
 // Vuetify
 import '@mdi/font/css/materialdesignicons.css'
@@ -44,4 +46,5 @@ Axios.defaults.withCredentials = true;
 export { axios };
 Vue.use(router)
     .use(vuetify)
+    .use(store)
     .mount('#app')
