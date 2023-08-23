@@ -4,8 +4,9 @@ import Axios from 'axios'
 import router from '@/router'
 import { createPinia } from 'pinia'
 const Vue = createApp(App);
-const store = createPinia()
-
+const store = createPinia();
+import './assets/scss/fonts.scss'; // 전역 스타일 파일 추가
+import './assets/scss/cursorLock.scss'; // 전역 스타일 파일 추가
 // Vuetify
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
