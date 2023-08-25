@@ -1,0 +1,21 @@
+.login-container {
+  $self: #{&};
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+
+  &__layout {
+    padding-top: 80px;
+    height: 250px;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    cursor: pointer;
+
+    &-title {
+      color: #684AFF;
+      font-family: 'NanumEb', sans-serif;
+    }
+  }
+}
