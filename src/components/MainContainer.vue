@@ -12,7 +12,7 @@
             </v-toolbar-title>
             <v-spacer />
             <div :class="$style['main-container__toolbar-items']">
-                <v-btn class="pr-0 pl-0" @click="clickUserInfo">
+                <v-btn class="pr-0 pl-0" @click="clickRegisterBtnHandler">
                     <v-icon
                         icon="mdi-account-circle-outline"
                         color="#FF8C06"
@@ -21,7 +21,7 @@
                     ></v-icon>
                     <span class="mr-5" :class="$style['main-container__toolbar-items-text']">회원가입</span>
                 </v-btn>
-                <v-btn class="pr-0 pl-0">
+                <v-btn class="pr-0 pl-0" @click="clickLoginBtnHandler">
                     <v-icon
                         icon="mdi-login-variant"
                         color="#684AFF"
@@ -37,9 +37,13 @@
 
 <script lang="ts" setup>
 import router from "@/router";
-const clickUserInfo = () => {
+const clickRegisterBtnHandler = () => {
     router.push({ path: `/login-container` });
-}
+};
+
+const clickLoginBtnHandler = () => {
+    router.push({ path: `/login-container/login` });
+};
 </script>
 <style lang="scss" module>
 @import './MainContainer';
