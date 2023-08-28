@@ -3,8 +3,8 @@ import App from './App.vue'
 import Axios from 'axios'
 import router from '@/router'
 import { createPinia } from 'pinia'
+import storePluginPersistedState from 'pinia-plugin-persistedstate';
 const Vue = createApp(App);
-const store = createPinia();
 import './assets/scss/fonts.scss'; // 전역 스타일 파일 추가
 import './assets/scss/cursorLock.scss'; // 전역 스타일 파일 추가
 // Vuetify
@@ -13,6 +13,9 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+
+const store = createPinia();
+store.use(storePluginPersistedState);
 
 function url() {
     if ((document.location.href.slice(0, 5)) == 'https') {
