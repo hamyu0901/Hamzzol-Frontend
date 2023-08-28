@@ -28,7 +28,7 @@
                         size="large"
                         class="mr-1"
                     ></v-icon>
-                    <span :class="$style['main-container__toolbar-items-text']">로그인</span>
+                    <span :class="$style['main-container__toolbar-items-text']">{{ `${!username ? '로그인' : '로그아웃'}` }}</span>
                 </v-btn>
             </div>
         </v-toolbar>
@@ -37,12 +37,31 @@
 
 <script lang="ts" setup>
 import router from "@/router";
+import { useStore } from "@/store";
+import { onMounted, ref } from "vue";
+
+const store = useStore();
+const username = ref<string | null>('');
+
+onMounted (() => {
+    username.value = sessionStorage.getItem('username');
+});
+
 const clickRegisterBtnHandler = () => {
     router.push({ path: `/login-container` });
 };
 
 const clickLoginBtnHandler = () => {
-    router.push({ path: `/login-container/login` });
+    if(!username.value){
+        router.push({ path: `/login-container/login` });
+    }else {
+        store.setUserInfo({
+            id: '',
+            name: ''
+        });
+        sessionStorage.removeItem('username');
+        username.value = sessionStorage.getItem('username');
+    }
 };
 </script>
 <style lang="scss" module>
