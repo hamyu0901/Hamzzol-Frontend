@@ -51,7 +51,9 @@
 import { ref } from "vue";
 import router from "@/router";
 import { getCompareUserAPI } from "@/api/loginAPI";
+import { useStore } from "@/store";
 
+const store = useStore();
 const id = ref<null | string>(null);
 const password = ref<null | string>(null);
 
@@ -60,7 +62,29 @@ const clickLoginBtnHandler = async () => {
         id: id.value !== null ? id.value : '',
         password: password.value !== null ? password.value : ''
     });
-    console.log(compareUserInfo)
+    if(compareUserInfo.data){
+        if(compareUserInfo.data !== 'Not User' && compareUserInfo.data !== 'err' && compareUserInfo.data !== 'Incorrect password'){
+            store.setUserInfo({
+                id: compareUserInfo.data.user_id,
+                name: compareUserInfo.data.user_name
+            });
+            sessionStorage.setItem('username', compareUserInfo.data.user_name)
+            await router.push('/')
+        }
+        else {
+            if(compareUserInfo.data === 'Not User'){
+                window.alert('등록된 사용자가 없습니다.')
+            }
+            else if(compareUserInfo.data === 'Incorrect password'){
+                window.alert('비밀번호가 일치하지 않습니다.')
+            }
+            else {
+                window.alert('사용자 정보를 다시 확인해주세요')
+            }
+        }
+    }else {
+        window.alert('사용자 정보를 다시 확인해주세요')
+    }
 };
 
 const clickRegisterBtnHandler = () => {
