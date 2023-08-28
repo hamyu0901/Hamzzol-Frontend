@@ -119,6 +119,7 @@
 </template>
 <script lang="ts" setup>
 import router from "@/router";
+import  { useStore } from "@/store";
 import { isEmpty } from "lodash";
 import { getSecurityQATypeInfo, getUserInfoAPI, postUserInfoAPI} from "@/api/loginAPI";
 import { onMounted, ref } from "vue";
@@ -135,6 +136,7 @@ interface ITypeItemOptions {
     checkFlag: boolean
 }
 
+const store = useStore();
 const name = ref<null | string>(null);
 const id = ref<null | string>(null);
 const password = ref<null | string>(null);
@@ -284,7 +286,19 @@ const clickRegisterBtn = async () => {
 };
 
 const clickLoginBtn = () => {
-    router.push({ path: `/login-container/login` });
+    const username = sessionStorage.getItem('username');
+    if(username){
+        if(window.confirm('현재 상태를 로그아웃 하시겠습니까??')){
+            store.setUserInfo({
+                id: '',
+                name: ''
+            });
+            sessionStorage.removeItem('username');
+            router.push({ path: `/login-container/login` });
+        }
+    }else {
+        router.push({ path: `/login-container/login` });
+    }
 };
 </script>
 <style lang="scss" module>

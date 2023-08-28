@@ -12,7 +12,7 @@
             </v-toolbar-title>
             <v-spacer />
             <div :class="$style['main-container__toolbar-items']">
-                <v-btn class="pr-0 pl-0" @click="clickUserInfo">
+                <v-btn class="pr-0 pl-0" @click="clickRegisterBtnHandler">
                     <v-icon
                         icon="mdi-account-circle-outline"
                         color="#FF8C06"
@@ -21,14 +21,14 @@
                     ></v-icon>
                     <span class="mr-5" :class="$style['main-container__toolbar-items-text']">회원가입</span>
                 </v-btn>
-                <v-btn class="pr-0 pl-0">
+                <v-btn class="pr-0 pl-0" @click="clickLoginBtnHandler">
                     <v-icon
                         icon="mdi-login-variant"
                         color="#684AFF"
                         size="large"
                         class="mr-1"
                     ></v-icon>
-                    <span :class="$style['main-container__toolbar-items-text']">로그인</span>
+                    <span :class="$style['main-container__toolbar-items-text']">{{ `${!username ? '로그인' : '로그아웃'}` }}</span>
                 </v-btn>
             </div>
         </v-toolbar>
@@ -37,9 +37,32 @@
 
 <script lang="ts" setup>
 import router from "@/router";
-const clickUserInfo = () => {
+import { useStore } from "@/store";
+import { onMounted, ref } from "vue";
+
+const store = useStore();
+const username = ref<string | null>('');
+
+onMounted (() => {
+    username.value = sessionStorage.getItem('username');
+});
+
+const clickRegisterBtnHandler = () => {
     router.push({ path: `/login-container` });
-}
+};
+
+const clickLoginBtnHandler = () => {
+    if(!username.value){
+        router.push({ path: `/login-container/login` });
+    }else {
+        store.setUserInfo({
+            id: '',
+            name: ''
+        });
+        sessionStorage.removeItem('username');
+        username.value = sessionStorage.getItem('username');
+    }
+};
 </script>
 <style lang="scss" module>
 @import './MainContainer';

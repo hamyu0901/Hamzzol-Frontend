@@ -1,28 +1,29 @@
-// import { defineStore } from 'pinia';
-//
-// interface IUserInfoType {
-//     id: string;
-//     password: string;
-// }
-//
-// export const useStore = defineStore('store', {
-//     state: (): IUserInfoType => {
-//         return {
-//             userInfo: {
-//                 id: '',
-//                 password: ''
-//             }
-//         };
-//     },
-//     getters: {
-//         getUserInfo: (state): IUserInfoType => {
-//             return state.userInfo;
-//         },
-//     },
-//     actions: {
-//         setUser(user: IUserInfoType) {
-//             this.$state.userInfo = user;
-//         }
-//     },
-//     persist: true
-// });
+import { defineStore } from 'pinia';
+
+interface IUserInfoType {
+    id: string;
+    name: string
+}
+
+interface IStoreType {
+    userInfo: IUserInfoType;
+}
+
+export const useStore = defineStore('store', {
+    state: (): IStoreType => {
+        return {
+            userInfo: { id: '', name: '' }
+        };
+    },
+    getters: {
+        getUserInfo: (state: IStoreType): IUserInfoType => { // 반환 타입 수정
+            return state.userInfo;
+        },
+    },
+    actions: {
+        setUserInfo(userInfo: IUserInfoType) {
+            this.$state.userInfo = userInfo;
+        },
+    },
+    persist: true
+});
