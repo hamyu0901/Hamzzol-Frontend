@@ -1,0 +1,39 @@
+.my-page {
+  $self: #{&};
+  &-text-field {
+    font-family: 'NanumR', sans-serif;
+    [class*='v-input__details']{
+      display: none;
+    }
+    [class*='v-icon']{
+      color: #684AFF !important;
+    }
+  }
+  &__img-layout {
+    display: flex;
+    flex-direction: column;
+    &-title {
+      border-bottom: 1px dotted #000000;
+      font-family: 'NanumH', sans-serif;
+      padding-bottom: 10px;
+      font-size: 15px;
+    }
+    &-sub-title {
+      font-family: 'NanumEb', sans-serif;
+      font-size: 11px;
+    }
+    &-contents-box {
+      width: 128px;
+      height: 128px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      border: 1px solid #EBE9EB;
+      margin: 30px 0 30px 0;
+    }
+  }
+  &-btn {
+    color: #684AFF;
+    border: 1px solid #EBE9EB;
+  }
+}
