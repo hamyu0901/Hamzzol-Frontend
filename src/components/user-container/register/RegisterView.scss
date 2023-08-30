@@ -1,0 +1,26 @@
+.register-view {
+  $self: #{&};
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  &__container{
+    height: 100vh;
+    max-height: calc(100vh - 450px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-btn {
+      font-size: 13.5px !important;
+      font-family: 'NanumBd', sans-serif;
+    }
+    &-select-box {
+      font-family: 'NanumR', sans-serif;
+      [class*='v-input__details']{
+        display: none;
+      }
+      [class*='v-icon']{
+        color: #684AFF !important;
+      }
+    }
+  }
+}
