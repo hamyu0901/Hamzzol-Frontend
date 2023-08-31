@@ -1,17 +1,19 @@
 import { createWebHistory, createRouter } from "vue-router";
-import MainContainer from "@/components/MainContainer.vue"
-import LoginContainer from "@/components/login-container/LoginContainer.vue";
-import RegisterView from "@/components/login-container/register/RegisterView.vue"
-import LoginView from "@/components/login-container/login/LoginView.vue"
+import MainContainer from "@/components/main/MainContainer.vue"
+import UserContainer from "@/components/user-container/UserContainer.vue";
+import RegisterView from "@/components/user-container/register/RegisterView.vue"
+import LoginView from "@/components/user-container/login/LoginView.vue"
+import MyPage from "@/components/user-container/mypage/MyPage.vue";
 
 const routes = [
     { path: "/", name: "main", component: MainContainer },
-    { path: '/login-container', name: "loginContainer", component: LoginContainer, redirect: '/login-container/register',
+    { path: '/user-container', name: "userContainer", component: UserContainer, redirect: '/user-container/register',
         children: [
             { path: 'register', name: 'register', component: RegisterView },
-            { path: 'login', name: 'login', component: LoginView }
+            { path: 'login', name: 'login', component: LoginView },
+            { path: 'my-page', name: "myPage", component: MyPage,}
         ]
-    }
+    },
 ];
 
 const router = createRouter({
