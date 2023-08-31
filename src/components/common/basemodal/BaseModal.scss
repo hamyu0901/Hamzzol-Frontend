@@ -1,0 +1,15 @@
+.base-modal {
+  $self : #{&};
+  &__contents {
+    background-color: #F7F6FF !important;
+    &-card-title {
+      display: flex !important;
+      width: 100% !important;
+      max-height: 50px;
+      font-family: 'NanumEb', sans-serif;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid #D2D9E1;
+      justify-content: space-between;
+    }
+  }
+}
