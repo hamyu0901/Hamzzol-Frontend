@@ -1,0 +1,10 @@
+.base-text-field {
+  font-family: 'NanumR', sans-serif;
+  border-radius: 10px !important;
+  [class*='v-input__details'] {
+    display: none;
+  }
+  [class*='v-icon'] {
+    color: #684AFF !important;
+  }
+}
