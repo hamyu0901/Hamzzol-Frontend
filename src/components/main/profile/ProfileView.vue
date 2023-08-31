@@ -1,6 +1,6 @@
 <template>
     <v-layout :class="$style['profile-view']">
-        <v-card :class="$style['profile-view__card']" elevation="0">
+        <v-card :class="$style['profile-view__card']" >
             <v-layout :class="$style['profile-view__card__layout']">
                 <div style="text-align: right; width: 100%;" v-if="username"><v-btn variant="text" color="#FF8C06" :style="fontStyle" @click="clickMyPageBtnHandler">마이페이지</v-btn></div>
                 <img alt="userImage" :src="url" style="width:100px; height:100px" class="mt-3 mb-3"/>
