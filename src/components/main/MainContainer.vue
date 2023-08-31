@@ -6,7 +6,7 @@
         >
             <v-toolbar-title :class="$style['main-container__toolbar-title']">
                 <v-layout :class="$style['main-container__toolbar-title__layout']">
-                    <img :class="$style['main-container__toolbar-title__layout-img']" alt="Vue logo" src="../assets/img/logo.png" :height="60" :width="80">
+                    <img :class="$style['main-container__toolbar-title__layout-img']" alt="Vue logo" src="../../assets/img/logo.png" :height="60" :width="80">
                     <div :class="$style['main-container__toolbar-title__layout-title']">Hamzzol-World</div>
                 </v-layout>
             </v-toolbar-title>
@@ -32,6 +32,9 @@
                 </v-btn>
             </div>
         </v-toolbar>
+        <v-layout :class="$style['main-container__layout']">
+            <profile-view :username="username"></profile-view>
+        </v-layout>
     </v-app>
 </template>
 
@@ -39,31 +42,31 @@
 import router from "@/router";
 import { useStore } from "@/store";
 import { onMounted, ref } from "vue";
+import ProfileView from "@/components/main/profile/ProfileView.vue";
 
 const store = useStore();
 const username = ref<string | null>('');
 
 onMounted (() => {
-    username.value = sessionStorage.getItem('username');
+    username.value = store.getUserInfo.name;
 });
 
 const clickRegisterBtnHandler = () => {
-    router.push({ path: `/login-container` });
+    router.push({ path: `/user-container` });
 };
 
 const clickLoginBtnHandler = () => {
     if(!username.value){
-        router.push({ path: `/login-container/login` });
+        router.push({ path: `/user-container/login` });
     }else {
         store.setUserInfo({
             id: '',
-            name: ''
+            name: '',
         });
-        sessionStorage.removeItem('username');
-        username.value = sessionStorage.getItem('username');
+        username.value = store.getUserInfo.name;
     }
 };
 </script>
 <style lang="scss" module>
-@import './MainContainer';
+@import 'MainContainer';
 </style>
