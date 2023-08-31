@@ -33,7 +33,11 @@
             </div>
         </v-toolbar>
         <v-layout :class="$style['main-container__layout']">
-            <profile-view :username="username"></profile-view>
+            <profile-view style="display: flex; width: 10%" :username="username"></profile-view>
+            <weather-forecast style="display: flex; width: 70%; height: 300px; margin: 0 30px 0 30px"></weather-forecast>
+            <v-layout style="display: flex; width: 20%">
+                <v-card width="100%"></v-card>
+            </v-layout>
         </v-layout>
     </v-app>
 </template>
@@ -43,6 +47,7 @@ import router from "@/router";
 import { useStore } from "@/store";
 import { onMounted, ref } from "vue";
 import ProfileView from "@/components/main/profile/ProfileView.vue";
+import WeatherForecast from "@/components/main/weather/WeatherForecast.vue";
 
 const store = useStore();
 const username = ref<string | null>('');
