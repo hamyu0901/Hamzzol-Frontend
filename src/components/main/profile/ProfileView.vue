@@ -3,7 +3,7 @@
         <v-card :class="$style['profile-view__card']" >
             <v-layout :class="$style['profile-view__card__layout']">
                 <div style="text-align: right; width: 100%;" v-if="username"><v-btn variant="text" color="#FF8C06" :style="fontStyle" @click="clickMyPageBtnHandler">마이페이지</v-btn></div>
-                <img alt="userImage" :src="url" style="width:100px; height:100px" class="mt-3 mb-3"/>
+                <img alt="userImage" :src="url" style="width:128px; height:128px" class="mt-3 mb-3"/>
                 <div v-if="username" :style="`${fontStyle}`"><span style="color: #684AFF;">{{ props.username }}</span><span>님</span></div>
                 <div v-else><span :style="`${fontStyle}`">로그인 후 이용 바랍니다.</span></div>
             </v-layout>
