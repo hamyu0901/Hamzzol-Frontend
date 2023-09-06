@@ -34,7 +34,7 @@
         </v-toolbar>
         <v-layout :class="$style['main-container__layout']">
             <profile-view style="display: flex; width: 10%" :username="username"></profile-view>
-            <weather-forecast style="display: flex; width: 70%; height: 300px; margin: 0 30px 0 30px"></weather-forecast>
+            <weather-forecast style="display: flex; width: 70%; height: 250px; margin: 0 30px 0 30px"></weather-forecast>
             <v-layout style="display: flex; width: 20%">
                 <v-card width="100%"></v-card>
             </v-layout>
