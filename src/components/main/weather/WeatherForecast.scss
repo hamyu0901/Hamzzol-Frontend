@@ -1,0 +1,27 @@
+.weather-forecast {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05) !important;
+  background-image: url('../../../assets/img/common/weather/sky.png') !important;
+  background-size: 100% !important;
+  padding: 20px !important;
+  &-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2); /* 빨간색 배경색, 투명도 0.5 (50%) */
+    border-radius: 30px;
+    box-shadow: 4px 4px 4px 1px rgba(0, 0, 0, 0.2) !important;
+    &__layout {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}
+.font-H {
+  font-family: 'NanumH', sans-serif;
+}
+
+.font-Eb {
+  font-family: 'NanumEb', sans-serif;
+}

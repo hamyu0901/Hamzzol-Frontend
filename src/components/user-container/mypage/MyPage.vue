@@ -135,7 +135,7 @@ const uploadImageData = (event: any) => {
 
 const getUserImg = async () => {
     const imgUrl = await getUserImgAPI(id.value || '');
-    url.value = imgUrl.data !== 'err' ?`data:image/png;base64,${imgUrl.data}` : require('@/assets/img/common/add_photo.png');
+    url.value = imgUrl.data !== 'err' ?`data:image/png;base64,${imgUrl.data}` : require('@/assets/img/common/my-page/add_photo.png');
 };
 
 const clickUpdateUserInfo = async () => {
