@@ -1,7 +1,7 @@
 <template>
     <v-layout :class="$style['register-view']">
         <v-layout :class="$style['register-view__container']">
-            <base-card title="Register" :width="550" :height="650">
+            <base-card title="Register" :width="550" :height="650" class="ma-3">
                 <base-text-field
                      class="pt-2 pb-2"
                      :value="name"

@@ -1,7 +1,7 @@
 <template>
     <v-layout :class="$style['login-view']">
         <v-layout :class="$style['login-view__container']">
-            <base-card title="Login" :width="500" :height="350">
+            <base-card title="Login" :width="500" :height="350" class="ma-2">
                 <base-text-field :value="id" icon="mdi-card-account-details-outline" label="ID" place-holder="id를 입력해주세요" @updateValue="id=$event"></base-text-field>
                 <base-text-field class="pt-7" :value="password" icon="mdi-lock" type="password" label="Password" place-holder="비밀번호를 입력해주세요" @updateValue="password=$event"></base-text-field>
                 <v-layout style="justify-content: right; padding-top: 50px" >

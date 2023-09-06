@@ -1,18 +1,20 @@
 <template>
     <v-card style="width: 100%" :class="$style['weather-forecast']">
-        <span style="color: blue;" :class="$style['font-Eb']">Today {{ location }} Weather</span>
-        <div v-for="(weatherItem, index) in weatherData" :key="index" :class="$style['weather-forecast-container']" :style="index !== weatherData.length-1 && 'margin-right: 20px'">
-            <v-layout :class="$style['weather-forecast-container__layout']">
-                <span :class="$style['font-Eb']">{{setHours(weatherItem)}}</span>
-                <div style="width: 100%; text-align: center" class="mt-2 mb-2">
-                    <img :src="setWeatherSrc(weatherItem)" width="64" height="64" alt="weatherImg"/>
-                </div>
-                <v-layout :class="$style['font-H']" style="justify-content: center;">
-                    <span style="font-size: 20px;">{{weatherItem.main['temp']}}</span>
-                    <span style="padding-top: 5px"> °C</span>
+        <v-card-title style="color: blue;" :class="$style['font-Eb']">Today {{ location }} Weather</v-card-title>
+        <v-card-text style="flex-direction: row; display: flex">
+            <v-layout v-for="(weatherItem, index) in weatherData" :key="index" :class="$style['weather-forecast-container']" :style="index !== weatherData.length-1 && 'margin-right: 20px'">
+                <v-layout :class="$style['weather-forecast-container__layout']">
+                    <span :class="$style['font-Eb']">{{setHours(weatherItem)}}</span>
+                    <div style="width: 100%; text-align: center" class="mt-2 mb-2">
+                        <img :src="setWeatherSrc(weatherItem)" width="64" height="64" alt="weatherImg"/>
+                    </div>
+                    <v-layout :class="$style['font-H']" style="justify-content: center;">
+                        <span style="font-size: 20px;">{{weatherItem.main['temp']}}</span>
+                        <span style="padding-top: 5px"> °C</span>
+                    </v-layout>
                 </v-layout>
             </v-layout>
-        </div>
+        </v-card-text>
     </v-card>
 </template>
 
