@@ -1,5 +1,7 @@
 .my-page {
   $self: #{&};
+  background-image: url('../../../assets/img/common/background.png') !important;
+  background-size: 100% !important;
   &-text-field {
     font-family: 'NanumR', sans-serif;
     [class*='v-input__details']{
