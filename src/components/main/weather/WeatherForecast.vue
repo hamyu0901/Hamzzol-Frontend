@@ -1,7 +1,8 @@
 <template>
     <v-card style="width: 100%" :class="$style['weather-forecast']">
-        <v-card-title style="color: blue;" :class="$style['font-Eb']">Today {{ location }} Weather</v-card-title>
-        <v-card-text style="flex-direction: row; display: flex">
+        <v-card-title style="color: black;" :class="$style['font-Eb']">Today {{ location }} Weather</v-card-title>
+        <base-loading-bar v-if="isWeatherLoading" :isLoading="isWeatherLoading"></base-loading-bar>
+        <v-card-text v-else style="flex-direction: row; display: flex; padding-top: 16px">
             <v-layout v-for="(weatherItem, index) in weatherData" :key="index" :class="$style['weather-forecast-container']" :style="index !== weatherData.length-1 && 'margin-right: 20px'">
                 <v-layout :class="$style['weather-forecast-container__layout']">
                     <span :class="$style['font-Eb']">{{setHours(weatherItem)}}</span>
@@ -9,8 +10,8 @@
                         <img :src="setWeatherSrc(weatherItem)" width="64" height="64" alt="weatherImg"/>
                     </div>
                     <v-layout :class="$style['font-H']" style="justify-content: center;">
-                        <span style="font-size: 20px;">{{weatherItem.main['temp']}}</span>
-                        <span style="padding-top: 5px"> °C</span>
+                        <span style="font-size: 18px;">{{temperature(weatherItem)}}</span>
+                        <span style="padding-left: 3px"> °C</span>
                     </v-layout>
                 </v-layout>
             </v-layout>
@@ -19,18 +20,27 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { axios } from "@/main";
 import { getWeatherAPI } from "@/api/commonAPI";
+import BaseLoadingBar from "@/components/common/baseloadingbar/BaseLoadingBar.vue";
 const weatherData = ref<any>([]);
 const sunset = ref<number>(0);
 const location = ref<string>('');
+const isWeatherLoading = ref<boolean>(false);
 
 onMounted(() => {
     getWeatherForecast();
 });
 
+const temperature = computed(() => {
+    return (weatherItem: any) => {
+        return String(weatherItem.main['temp']).substring(0, 2);
+    }
+});
+
 const getWeatherForecast = async () => {
+    isWeatherLoading.value = true;
     try {
         const weatherApiKey = await getWeatherAPI();
         if ("geolocation" in navigator) {
@@ -43,13 +53,19 @@ const getWeatherForecast = async () => {
                 weatherData.value = weatherResult.data.list;
                 sunset.value = weatherResult.data.city.sunset;
                 location.value = weatherResult.data.city.name;
+                isWeatherLoading.value = false;
             }, function (error) {
+                isWeatherLoading.value = false;
+                window.alert('위치 정보를 가져올 수 없습니다.')
                 console.error("위치 정보를 가져올 수 없습니다.", error);
             });
         } else {
-            console.error("지원하지 않는 브라우저입니다.");
+            isWeatherLoading.value = false;
+            window.alert('지원하지 않는 브라우저입니다.')
         }
     } catch (error) {
+        isWeatherLoading.value = false;
+        window.alert('Error fetching weather data')
         console.error('Error fetching weather data', error);
     }
 };
