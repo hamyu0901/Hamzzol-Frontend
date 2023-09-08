@@ -4,7 +4,9 @@
   background-size: 100% !important;
   padding: 20px !important;
   flex-direction: column !important;
+  border-radius: 20px !important;
   &-container {
+    padding: 5px;
     width: 100%;
     align-items: center;
     justify-content: center;
