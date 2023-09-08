@@ -2,12 +2,33 @@
     <v-layout :class="$style['profile-view']">
         <v-card :class="$style['profile-view__card']" >
             <v-layout :class="$style['profile-view__card__layout']">
-                <div style="text-align: right; width: 100%;" v-if="username"><v-btn variant="text" color="#FF8C06" :style="fontStyle" @click="clickMyPageBtnHandler">마이페이지</v-btn></div>
+                <div style="text-align: right; width: 100%;" v-if="!username">
+                    <v-btn @click="clickLoginPageBtnHandler"  variant="text"  :style="`${fontStyle}; font-size: 13px`">
+                        <v-icon
+                            icon="mdi-login-variant"
+                            color="#684AFF"
+                            size="large"
+                            class="mr-1"
+                        ></v-icon>
+                        <span>로그인</span>
+                    </v-btn>
+                </div>
+                <div style="text-align: right; width: 100%;" v-else>
+                    <v-btn @click="clickMyPageBtnHandler"  variant="text" :style="`${fontStyle}; font-size: 13px`">
+                        <v-icon
+                            icon="mdi-home-account"
+                            color="#FD3A84"
+                            size="large"
+                            class="mr-1"
+                        ></v-icon>
+                        <span>마이페이지</span>
+                    </v-btn>
+                </div>
                 <div :class="$style['profile-view__card__layout-contents-box']">
-                    <v-img alt="userImage" :src="url" :max-height="128" :max-width="128" contain></v-img>
+                    <v-img alt="userImage" :src="url" :max-height="100" :max-width="100" contain></v-img>
                 </div>
                 <div v-if="username" :style="`${fontStyle}`"><span style="color: #684AFF;">{{ props.username }}</span><span>님</span></div>
-                <div v-else><span :style="`${fontStyle}`">로그인 후 이용 바랍니다.</span></div>
+                <div v-else><span :style="fontStyle" style="color: #FF8C06;">로그인 후 이용 바랍니다.</span></div>
             </v-layout>
         </v-card>
     </v-layout>
@@ -30,7 +51,7 @@ const store = useStore();
 const url = ref<any>(null);
 
 const fontStyle = computed(() => {
-    return "font-family: 'NanumBd' , sans-serif"
+    return "font-family: 'NanumEb' , sans-serif"
 });
 
 onMounted(() => {
@@ -40,6 +61,10 @@ onMounted(() => {
 watch(()=> props.username, () => {
     getUserImg();
 });
+
+const clickLoginPageBtnHandler = () => {
+    router.push('/user-container/login')
+};
 
 const clickMyPageBtnHandler = () => {
     router.push('/user-container/my-page')
