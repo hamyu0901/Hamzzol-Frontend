@@ -33,8 +33,8 @@
             </div>
         </v-toolbar>
         <v-layout :class="$style['main-container__layout']">
-            <profile-view :class="$style['main-container__layout__profile-view']" :style="`${screenWidth > 2560 ? 'width: 15%' : 'width: 10%'}`" :username="username"></profile-view>
-            <weather-forecast :class="$style['main-container__layout__weather-forecast']" :style="`${screenWidth > 2560 ? 'width: 65%' : 'width: 70%'}`"></weather-forecast>
+            <profile-view :class="$style['main-container__layout__profile-view']" :style="`${screenWidth < 2560 ? 'width: 15%' : 'width: 10%'}`" :username="username"></profile-view>
+            <weather-forecast :class="$style['main-container__layout__weather-forecast']" :style="`${screenWidth < 2560 ? 'width: 65%' : 'width: 70%'}`"></weather-forecast>
             <v-layout style="display: flex; width: 20%;">
                 <v-card width="100%" style="background: rgba(255, 255, 255, 0.5); border-radius: 20px;"></v-card>
             </v-layout>
