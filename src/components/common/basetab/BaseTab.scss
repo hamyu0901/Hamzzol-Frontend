@@ -1,0 +1,18 @@
+.base-tab {
+  $self: #{&};
+  width: 100%;
+  border-bottom: 1px solid rgb(100,74,255,0.1);
+  box-shadow: 0 1px 1px rgba(100,74,255, 0.1);
+  background: #FFFFFF !important;
+  &-item {
+    width: 100%;
+    height: 100% !important;
+    color: #684AFF !important;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 13px !important;
+    font-family: 'NanumEb', sans-serif;
+    border-radius: 0 !important;
+  }
+}
