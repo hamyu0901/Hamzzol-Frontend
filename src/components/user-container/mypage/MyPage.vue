@@ -55,7 +55,7 @@ interface IPasswordOptionType {
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "@/store";
 import router from "@/router";
-import { getCompareUserAPI, getUserImgAPI, patchUserInfoAPI, uploadUserImgAPI } from "@/api/loginAPI";
+import { getCompareUserAPI, getUserImgAPI, patchUserInfoAPI, uploadUserImgAPI } from "@/api/login/loginAPI";
 import BaseModal from "@/components/common/basemodal/BaseModal.vue";
 import BaseCard from "@/components/common/basecard/BaseCard.vue";
 import BaseTextField from "@/components/common/basetextfield/BaseTextField.vue";

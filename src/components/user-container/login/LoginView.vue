@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import router from "@/router";
-import { getCompareUserAPI } from "@/api/loginAPI";
+import { getCompareUserAPI } from "@/api/login/loginAPI";
 import { useStore } from "@/store";
 import BaseTextField from "@/components/common/basetextfield/BaseTextField.vue";
 import BaseCard from "@/components/common/basecard/BaseCard.vue";
