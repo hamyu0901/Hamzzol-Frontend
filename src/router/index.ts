@@ -4,6 +4,7 @@ import UserContainer from "@/components/user-container/UserContainer.vue";
 import RegisterView from "@/components/user-container/register/RegisterView.vue"
 import LoginView from "@/components/user-container/login/LoginView.vue"
 import MyPage from "@/components/user-container/mypage/MyPage.vue";
+import PlannerView from "@/components/planner/PlannerView.vue";
 
 const routes = [
     { path: "/", name: "main", component: MainContainer },
@@ -14,6 +15,7 @@ const routes = [
             { path: 'my-page', name: "myPage", component: MyPage,}
         ]
     },
+    { path: "/planner", name: "planner", component: PlannerView },
 ];
 
 const router = createRouter({

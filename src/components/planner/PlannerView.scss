@@ -1,0 +1,73 @@
+.planner-view {
+  $self: #{&};
+  display: flex;
+  width: 100% !important;
+  height: 100% !important;
+  flex-direction: column;
+  text-align: center;
+  background: white;
+  padding: 0 3px 0 3px;
+
+  &__header-layout {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    [class*='v-icon'] {
+      font-size: 40px;
+    }
+    &-year {
+      justify-content: center;
+      font-family: 'NanumBd', sans-serif;
+      align-items: center;
+      display: flex;
+      font-size: 21px;
+    }
+  }
+  &__days-layout {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    &-header {
+      height: 50px !important;
+      line-height: 50px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-family: 'NanumBd', sans-serif;
+    }
+    &-day {
+      margin: 0.3px 1px 0.3px 1px;
+      height: 99% !important;
+      border: 1px solid #ccc;
+      &-text {
+        padding: 5px;
+        display: flex;
+        justify-content: right;
+        font-family: 'NanumR', sans-serif;
+      }
+    }
+    &-list {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 10px;
+      &-checkbox {
+        [class*='v-input__details']{
+          display: none;
+        }
+      }
+      &-btn {
+        flex-grow: 1;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 10px;
+        font-family: 'NanumBd', sans-serif;
+      }
+    }
+  }
+}
+.decoration {
+  text-decoration: line-through !important; /* 취소선 스타일 적용 */
+  text-decoration-color : red !important;
+  text-decoration-thickness: 2px !important;
+}
+

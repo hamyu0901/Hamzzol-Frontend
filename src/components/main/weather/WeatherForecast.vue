@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
 import { axios } from "@/main";
-import { getWeatherAPI } from "@/api/commonAPI";
+import { getWeatherAPI } from "@/api/common/commonAPI";
 import BaseLoadingBar from "@/components/common/baseloadingbar/BaseLoadingBar.vue";
 const weatherData = ref<any>([]);
 const sunset = ref<number>(0);

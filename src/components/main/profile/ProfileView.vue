@@ -38,7 +38,7 @@
 import { computed, onMounted, PropType, ref, watch } from "vue";
 import router from "@/router";
 import { useStore } from "@/store";
-import { getUserImgAPI } from "@/api/loginAPI";
+import { getUserImgAPI } from "@/api/login/loginAPI";
 
 const props = defineProps({
     username : {

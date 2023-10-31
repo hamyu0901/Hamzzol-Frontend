@@ -53,7 +53,7 @@
 import router from "@/router";
 import  { useStore } from "@/store";
 import { isEmpty } from "lodash";
-import { getSecurityQATypeInfo, getUserInfoAPI, postUserInfoAPI} from "@/api/loginAPI";
+import { getSecurityQATypeInfo, getUserInfoAPI, postUserInfoAPI } from "@/api/login/loginAPI";
 import { onMounted, ref } from "vue";
 import BaseTextField from "@/components/common/basetextfield/BaseTextField.vue";
 import BaseCard from "@/components/common/basecard/BaseCard.vue";
