@@ -33,7 +33,9 @@
             </div>
         </v-toolbar>
         <base-tab :items="tabItems" @clickTabItem="clickTabItem"></base-tab>
-        <v-layout v-if="isSelectedTabItem" :class="$style['main-container__layout']">Not Main</v-layout>
+        <v-layout v-if="isSelectedTabItem" :class="$style['main-container__layout']">
+            <planner-view v-if="selectedTabItem[0].id === 1"></planner-view>
+        </v-layout>
         <v-layout v-else :class="$style['main-container__layout']">
             <profile-view :class="$style['main-container__layout__profile-view']" :style="`${screenWidth < 2560 ? 'width: 15%' : 'width: 10%'}`" :username="username"></profile-view>
             <weather-forecast :class="$style['main-container__layout__weather-forecast']" :style="`${screenWidth < 2560 ? 'width: 65%' : 'width: 70%'}`"></weather-forecast>
@@ -48,10 +50,11 @@
 import router from "@/router";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
-import { ITabsItemType } from "@/interface/common/common";
+import { ITabsItemType } from "../../interface/common/common";
 import ProfileView from "@/components/main/profile/ProfileView.vue";
 import WeatherForecast from "@/components/main/weather/WeatherForecast.vue";
 import BaseTab from "@/components/common/basetab/BaseTab.vue";
+import PlannerView from "@/components/planner/PlannerView.vue";
 
 const store = useStore();
 const username = ref<string | null>('');
@@ -59,6 +62,7 @@ const tabItems = ref<ITabsItemType[]>([
     { id: 0, title: 'Board', icon: 'mdi-table-heart', selected: false } ,
     { id: 1, title: 'Planner', icon: 'mdi-calendar-clock-outline', selected: false },
 ]);
+const selectedTabItem = ref<ITabsItemType[]>([]);
 
 onMounted (() => {
     username.value = store.getUserInfo.name;
@@ -93,9 +97,10 @@ const clickLoginBtnHandler = () => {
     }
 };
 
-const clickTabItem = (selectedTabItem: ITabsItemType) => {
+const clickTabItem = (selectedItem: ITabsItemType) => {
+    selectedTabItem.value = [selectedItem]
     tabItems.value.forEach(tabItem => {
-        const isEqual = JSON.stringify(selectedTabItem.id) === JSON.stringify(tabItem.id);
+        const isEqual = JSON.stringify(selectedItem.id) === JSON.stringify(tabItem.id);
         tabItem.selected = isEqual;
     })
 };
