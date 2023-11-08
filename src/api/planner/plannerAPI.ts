@@ -2,7 +2,9 @@ import { axios } from '@/main';
 
 const url = {
     getTodoListURL: 'planner',
-    patchTodoListURL: 'planner/id'
+    patchTodoListURL: 'planner/id',
+    postTodoListURL: 'planner',
+    deleteTodoListURL: 'planner/id'
 }
 
 interface IGetTodoListType {
@@ -13,13 +15,15 @@ interface IGetTodoListType {
 }
 
 interface IPostTodoListType {
-    listId: number,
+    listId?: number,
     userId: string | null,
     date: string,
     title: string,
     update_time: any,
     contents: string,
-    check_list: boolean
+    check_list: boolean,
+    date_range?: string[],
+    color?: string
 }
 
 const getTodoListAPI = async(params: IGetTodoListType): Promise<any> => {
@@ -31,4 +35,13 @@ const patchTodoListAPI = async(body: IPostTodoListType): Promise<any> => {
     return await axios.patch(`${url.patchTodoListURL}/${listId}`, { ...body });
 };
 
-export { getTodoListAPI, patchTodoListAPI }
+const postTodoListAPI = async(body: IPostTodoListType): Promise<any> => {
+    return await axios.post(`${url.postTodoListURL}`, {... body});
+};
+
+const deleteTodoListAPI = async(listId: number)=> {
+    return await axios.delete(`${url.deleteTodoListURL}/${listId}`)
+};
+
+
+export { getTodoListAPI, patchTodoListAPI, postTodoListAPI, deleteTodoListAPI }
