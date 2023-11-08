@@ -1,0 +1,93 @@
+.planner-detail-info {
+  $self: #{&};
+  display: flex;
+  flex-direction: column;
+  &__layout {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    &-text {
+      &-title {
+        font-family: 'NanumR', sans-serif;
+        color: darkgray;
+        display: flex;
+        width: 15%;
+      }
+      &-contents {
+        font-family: 'NanumBd', sans-serif;
+        width: 85%;
+        text-align: right;
+        display: flex;
+      }
+    }
+  }
+  &-title {
+    border-radius: 3px;
+    [class*='v-field__append-inner v-icon'] {
+      padding: 0 !important;
+      align-items: center;
+    }
+    [class*='v-field__input'] {
+      padding: 5px !important;
+    }
+    [class *='input'] {
+      background: #FFFFFF;
+      color: #000000;
+      font-family: 'NanumEb', sans-serif;
+      font-size: 20px;
+    }
+  }
+  &-color-picker {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    box-shadow: none !important;
+    [class*='v-color-picker__control'] {
+      padding-top: 6px !important;
+      height: 40px;
+    }
+  }
+  &-btn {
+    margin: 6px;
+    background-color: #353C43D9 !important;
+    color: white !important;
+    font-family: 'NanumR', sans-serif !important;
+  }
+  &-comment {
+    [class *='input'] {
+      font-family: 'NanumR', sans-serif;
+      font-size: 18px;
+    }
+  }
+}
+
+input[type='date'] {
+  font-family: NanumBd, sans-serif;
+  border: 1px solid #353C43D9;
+  position: relative; // 캘린더 아이콘을 클릭해야만 달력이 보이기 때문에 이 영역 자체를 제어하기 위해 설정
+  width: 200px;
+  padding: 3px;
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 100%;
+}
+
+// 실제 캘린더 아이콘을 클릭하는 영역을 의미하는 선택자
+// 이 영역을 확장해서 input의 어떤 곳을 클릭해도 캘린더를 클릭한 것과 같은 효과를 만들자!
+input[type='date']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; // 배경은 투명하게,
+  color: transparent; // 글자도 투명하게! 이 두 설정을 통해 캘린더 아이콘을 사라지게 만든다.
+  cursor: pointer;
+}
+.decoration{
+  [class*='v-field__input'] {
+    text-decoration: line-through !important; /* 취소선 스타일 적용 */
+    text-decoration-color : red !important;
+    text-decoration-thickness: 2px !important;
+  }
+}

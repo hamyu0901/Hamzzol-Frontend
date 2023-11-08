@@ -48,8 +48,6 @@
     &-list {
       display: flex;
       align-items: center;
-      padding: 10px;
-      margin-bottom: 10px;
       &-checkbox {
         [class*='v-input__details']{
           display: none;
@@ -59,7 +57,7 @@
         flex-grow: 1;
         border: 1px solid #ccc;
         border-radius: 5px;
-        margin: 10px;
+        margin-right: 10px;
         font-family: 'NanumBd', sans-serif;
       }
     }

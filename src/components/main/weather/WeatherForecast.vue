@@ -35,7 +35,7 @@ onMounted(() => {
 
 const temperature = computed(() => {
     return (weatherItem: any) => {
-        return String(weatherItem.main['temp']).substring(0, 2);
+        return Math.round(weatherItem.main['temp'])
     }
 });
 

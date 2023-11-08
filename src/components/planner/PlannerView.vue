@@ -20,7 +20,7 @@
                     <v-layout style="display: flex; justify-content: right; align-items: center">
                         <v-tooltip text="일정 추가" v-if="showAddPlanButton[index]" location="start">
                             <template v-slot:activator="{ props }">
-                                <v-btn  v-bind="props" icon="mdi-plus-circle-outline" variant="text" height="35" width="35" color="#AFA2FF" @click="clickPlannerBtnHandler(date, 'insert')"></v-btn>
+                                <v-btn v-bind="props" icon="mdi-plus-circle-outline" variant="text" height="35" width="35" color="#AFA2FF" @click="clickPlannerBtnHandler(date, 'insert')"></v-btn>
                             </template>
                         </v-tooltip>
                         <div :class="$style['planner-view__days-layout-day-text']">
@@ -31,24 +31,70 @@
                                 height="35"
                                 variant="text"
                                 width="35"
-                                style=" pointer-events: none; cursor: not-allowed;"
-                            >
-                                {{date}}
+                                style="pointer-events: none; cursor: not-allowed;"
+                            >{{date}}
                             </v-btn>
                         </div>
                     </v-layout>
-                    <v-layout v-if="isPlannerList(index)" style="display: flex; flex-direction: column; width: 100%">
-                        <v-layout v-for="(item, iIndex) in isPlannerList(index)" :key="iIndex" :class="$style['planner-view__days-layout-list']">
-                            <div><v-checkbox :class="$style['planner-view__days-layout-list-checkbox']" @click="clickCheckBtnHandler(item)" :model-value=" (item as { check_list: boolean })?.check_list"></v-checkbox></div>
-                            <v-btn :class="[$style['planner-view__days-layout-list-btn'], ((item as { check_list: boolean })?.check_list ? $style['decoration'] : '')]" @click="clickPlannerBtnHandler(item, 'update')">
-                                {{ (item as { title: string })?.title }}
-                            </v-btn>
-                        </v-layout>
+                    <v-layout
+                        style="display: flex; flex-direction: column;"
+                        v-for="(item, pIndex) in plannerItems"
+                        :key="pIndex"
+                    >
+                        <div
+                            v-if="subDateRange(date, item)"
+                            :style="`background-color: ${item.color}`"
+                        >
+                            <v-layout :class="$style['planner-view__days-layout-list']">
+                                <div :style="`min-height: 60px; ${item.date_range[0].slice(-2) !== setDate(date) && 'padding: 5px'}`">
+                                    <v-checkbox
+                                        v-if="item.date_range[0].slice(-2) === setDate(date)"
+                                        :class="$style['planner-view__days-layout-list-checkbox']"
+                                        @click="clickCheckBtnHandler(item)"
+                                        :model-value=" (item as { check_list: boolean })?.check_list">
+                                    </v-checkbox>
+                                </div>
+                                <v-btn
+                                    :class="[$style['planner-view__days-layout-list-btn'], ((item as { check_list: boolean })?.check_list ? $style['decoration'] : '')]"
+                                    @click="clickPlannerBtnHandler(item, 'update')"
+                                >
+                                    {{ (item as { title: string })?.title }}
+                                </v-btn>
+                            </v-layout>
+                        </div>
+                        <div
+                            v-if="!subDateRange(date,item) && compareDate(date, item)"
+                            :style="`background-color: ${item.color}`"
+                        >
+                            <v-layout :class="$style['planner-view__days-layout-list']">
+                                <div style="min-height: 60px; padding: 5px">
+                                    <v-checkbox
+                                        :class="$style['planner-view__days-layout-list-checkbox']"
+                                        @click="clickCheckBtnHandler(item)"
+                                        :model-value=" (item as { check_list: boolean })?.check_list">
+                                    </v-checkbox>
+                                </div>
+                                <v-btn
+                                    :class="[$style['planner-view__days-layout-list-btn'], ((item as { check_list: boolean })?.check_list ? $style['decoration'] : '')]"
+                                    @click="clickPlannerBtnHandler(item, 'update')"
+                                >
+                                    {{ (item as { title: string })?.title }}
+                                </v-btn>
+                            </v-layout>
+                        </div>
                     </v-layout>
                 </v-layout>
             </div>
         </v-layout>
-        <base-modal :title="modalTitle" :is-open="isPlannerModalOpen" @onCloseModal="isPlannerModalOpen=false"></base-modal>
+        <base-modal :title="modalTitle" :is-open="isPlannerModalOpen" @onCloseModal="isPlannerModalOpen=false" :height="550">
+            <planner-detail-info
+                :items="selectedPlannerItems"
+                :date="selectedDate"
+                :update-type="updateType"
+                @updatePlannerItem="updatePlannerItemHandler"
+            >
+            </planner-detail-info>
+        </base-modal>
     </div>
 </template>
 
@@ -57,16 +103,8 @@ import { computed, ref, onMounted } from "vue";
 import BaseModal from "@/components/common/basemodal/BaseModal.vue";
 import { getTodoListAPI, patchTodoListAPI } from "@/api/planner/plannerAPI";
 import { useStore } from "@/store";
-
-interface IPlannerListItemType {
-    list_id: number,
-    user_id: string,
-    date: string,
-    title: string,
-    contents: string,
-    update_time: string,
-    check_list: boolean
-}
+import PlannerDetailInfo from "@/components/planner/planner-detail-info/PlannerDetailInfo.vue";
+import { IPlannerListItemType } from "@/interface/planner/planner";
 
 const store = useStore();
 
@@ -80,7 +118,13 @@ const modalTitle = ref<string>('');
 
 const showAddPlanButton = ref<boolean[]>([]);
 
-const plannerListItems = ref<(IPlannerListItemType | null)[]>([]);
+const selectedPlannerItems = ref<IPlannerListItemType[]>([]);
+
+const selectedDate = ref<string>('');
+
+const plannerItems = ref<any[]>([]);
+
+const updateType = ref<string>('');
 
 onMounted (() => {
     getPlannerList();
@@ -125,16 +169,54 @@ const daysInMonth = computed(() => {
     return Array.from({ length: lastDay }, (_, i) => i + 1);
 });
 
-const isPlannerList = computed(() => {
-    return (index: number) => {
-        return plannerListItems.value[index]
+const compareDate = computed(() => {
+    return (date: number, item: IPlannerListItemType) => {
+        return `${year.value}-${month.value + 1}-${setDate.value(date)}` === item.date
     }
 });
+
+const setDate = computed(() => {
+
+    return (date: number) => {
+        if(String(date).length === 1){
+            return `0${date}`
+        }else {
+            return String(date)
+        }
+    }
+});
+
+const subDateRange = computed(() => {
+    return (date: number, item: IPlannerListItemType) => {
+        let day = ''
+        if(String(date).length === 1){
+            day = `0${date}`
+        }else{
+            day = String(date)
+        }
+        const targetDate = `${year.value}-${month.value+1}-${day}`;
+
+        return item.date_range.some((dateValue: string) => dateValue === targetDate);
+    }
+});
+
+const clickCheckBtnHandler = async (item: IPlannerListItemType) => {
+    item.check_list = !item.check_list
+    await patchTodoListAPI({
+        listId: item.list_id,
+        userId: item.user_id,
+        date: item.date,
+        title: item.title,
+        contents: item.contents,
+        update_time: item.update_time,
+        check_list: item.check_list,
+        date_range: item.date_range
+    })
+};
 
 const prevMonth = () => {
     currentDate.value = new Date(year.value, month.value - 1, 1);
     getPlannerList();
-
 };
 
 const nextMonth = () => {
@@ -149,36 +231,26 @@ const getPlannerList = async () => {
         month: `${currentDate.value.getMonth()+1}`
     });
 
-    let array: any[] = [];
-
-    if (daysInMonth.value && daysInMonth.value.length) {
-        array = Array.from({ length: daysInMonth.value.length }, () => null);
-    } else {
-        array = [];
-    }
-
-    plannerListItems.value = [];
-
-    plannerListResult.data.forEach((item : IPlannerListItemType) => {
-        const dateParts = item.date.split('-');
-        const day = parseInt(dateParts[2]);
-
-        if (array[day - 1] === null) {
-            array[day - 1] = [];
-        }
-
-        array[day - 1].push(item);
+    plannerItems.value = plannerListResult.data.map((item: IPlannerListItemType) => {
+        const color = item.color ? item.color : '#CCAEF4'
+        return {
+            ...item,
+            color
+        };
     });
-
-    plannerListItems.value.push(...array);
 };
 
 const clickPlannerBtnHandler = async (item: any, type: string) => {
+    selectedPlannerItems.value = [];
     isPlannerModalOpen.value = true;
+    updateType.value = type;
     if(type === 'insert') {
         modalTitle.value = '일정 추가'
+        selectedDate.value = String(item).length === 1 ? `${year.value}-${month.value+1}-0${item}` : `${year.value}-${month.value+1}-${item}`;
     }else {
         modalTitle.value = '일정 보기'
+        selectedDate.value = item.date;
+        selectedPlannerItems.value.push(item)
     }
 };
 
@@ -193,17 +265,9 @@ const showButton = (index: number, mouseType: string) => {
     showAddPlanButton.value[index] = mouseType === 'enter';
 };
 
-const clickCheckBtnHandler = async (item: IPlannerListItemType) => {
-    item.check_list = !item.check_list
-    await patchTodoListAPI({
-        listId: item.list_id,
-        userId: item.user_id,
-        date: item.date,
-        title: item.title,
-        contents: item.contents,
-        update_time: item.update_time,
-        check_list: item.check_list
-    })
+const updatePlannerItemHandler = () => {
+    isPlannerModalOpen.value = false;
+    getPlannerList();
 };
 </script>
 
